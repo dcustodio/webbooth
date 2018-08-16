@@ -11,7 +11,13 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+@import "@material/button/mdc-button";
+
+.foo-button {
+  @include mdc-button-ink-color(teal);
+  @include mdc-states(teal);
+}
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

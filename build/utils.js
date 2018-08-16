@@ -18,14 +18,16 @@ exports.cssLoaders = function (options) {
   const cssLoader = {
     loader: 'css-loader',
     options: {
-      sourceMap: options.sourceMap
+      sourceMap: options.sourceMap,
+      includePaths: ['./node_modules']
     }
   }
 
   const postcssLoader = {
     loader: 'postcss-loader',
     options: {
-      sourceMap: options.sourceMap
+      sourceMap: options.sourceMap,
+      includePaths: ['./node_modules']
     }
   }
 
@@ -60,7 +62,8 @@ exports.cssLoaders = function (options) {
     postcss: generateLoaders(),
     less: generateLoaders('less'),
     sass: generateLoaders('sass', { indentedSyntax: true }),
-    scss: generateLoaders('sass'),
+    scss: generateLoaders('sass', { includePaths: ['./node_modules']
+  }),
     stylus: generateLoaders('stylus'),
     styl: generateLoaders('stylus')
   }
