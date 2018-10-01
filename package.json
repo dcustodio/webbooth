@@ -13,8 +13,11 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "axios": "^0.18.0",
+    "cuid": "^2.1.4",
     "vue": "^2.5.2",
-    "vue-router": "^3.0.1"
+    "vue-router": "^3.0.1",
+    "vuetify": "^1.2.5"
   },
   "devDependencies": {
     "@material/button": "^0.38.1",

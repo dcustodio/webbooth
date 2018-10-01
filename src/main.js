@@ -3,6 +3,23 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import Vuetify from 'vuetify'
+import 'vuetify/dist/vuetify.min.css' // Ensure you are using css-loader
+import cuid from 'cuid'
+
+Vue.use(Vuetify)
+
+const shared = {
+  sessionId: cuid()
+}
+
+shared.install = function () {
+  Object.defineProperty(Vue.prototype, '$global', {
+    get () { return shared }
+  })
+}
+
+Vue.use(shared)
 
 Vue.config.productionTip = false
 
