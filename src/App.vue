@@ -1,16 +1,23 @@
 <template>
   <div id="app">
     <v-app>
-      <v-toolbar>
+      <v-toolbar color="primary">
         <v-toolbar-side-icon></v-toolbar-side-icon>
-        <v-toolbar-title>PhotoBooth</v-toolbar-title>
+        <v-toolbar-title> Photo Booth</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-toolbar-items class="hidden-sm-and-down">
-          <v-btn flat>Galeria</v-btn>
+          <v-btn flat href="#/">Home</v-btn>
+          <v-btn flat href="#/gallery">Galeria</v-btn>
         </v-toolbar-items>
       </v-toolbar>
-      <img src="./assets/logo.png">
-      <router-view/>
+      <!-- <img src="./assets/logo.png"> -->
+      <v-container grid-list-sm fluid>
+        <v-layout>
+          <v-flex xs12 sm6 offset-sm3>
+            <router-view/>
+          </v-flex>
+        </v-layout>
+      </v-container>
     </v-app>
   </div>
 </template>
@@ -27,6 +34,6 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+
 }
 </style>

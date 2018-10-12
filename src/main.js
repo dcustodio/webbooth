@@ -7,7 +7,18 @@ import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css' // Ensure you are using css-loader
 import cuid from 'cuid'
 
-Vue.use(Vuetify)
+Vue.use(Vuetify, {
+  theme: {
+    primary: '#00796b',
+    secondary: '#BE000E',
+    accent: '#8c9eff',
+    error: '#EE0D1D'
+  }
+})
+// primary lighten #48a999
+// primary darken #004c40
+// secondary lighten f84c38
+// secondary darken 860000
 
 const shared = {
   sessionId: cuid()

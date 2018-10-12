@@ -1,13 +1,13 @@
-import axios from 'axios'
+// import axios from 'axios'
 import apiConfig from '../../api.config'
 
-const http = axios.create({
-  baseURL: apiConfig.apiUrl,
-  headers: {
-    'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': '*'
-  }
-})
+// const http = axios.create({
+//   baseURL: apiConfig.apiUrl,
+//   headers: {
+//     'Content-Type': 'application/json',
+//     'Access-Control-Allow-Origin': '*'
+//   }
+// })
 
 export const ping = (cb) => {
   setTimeout(() => { console.log('pong'); cb() }, 100)
@@ -23,7 +23,7 @@ export const takePicture = async (sessionId, captureId) => {
 
   return fetch(`${apiConfig.apiUrl}/picture`, {
     method: 'POST', // *GET, POST, PUT, DELETE, etc.
-    mode: 'no-cors', // no-cors, cors, *same-origin
+    mode: 'cors', // no-cors, cors, *same-origin
     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
     credentials: 'omit', // include, same-origin, *omit
     headers: {
@@ -32,9 +32,9 @@ export const takePicture = async (sessionId, captureId) => {
     },
     redirect: 'follow', // manual, *follow, error
     referrer: 'no-referrer', // no-referrer, *client
-    body: {
+    body: JSON.stringify({
       sessionId,
       captureId
-    }// body data type must match "Content-Type" header
-  })
+    })// body data type must match "Content-Type" header
+  }).then(response => response.json())
 }
