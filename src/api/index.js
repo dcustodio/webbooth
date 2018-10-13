@@ -1,5 +1,5 @@
 // import axios from 'axios'
-import apiConfig from '../../api.config'
+import nconf from 'nconf'
 
 // const http = axios.create({
 //   baseURL: apiConfig.apiUrl,
@@ -9,6 +9,9 @@ import apiConfig from '../../api.config'
 //   }
 // })
 
+nconf.env().argv()
+nconf.file('../../api.config')
+var apiUrl = nconf.get('apiUrl')
 export const ping = (cb) => {
   setTimeout(() => { console.log('pong'); cb() }, 100)
 }
@@ -21,7 +24,7 @@ export const takePicture = async (sessionId, captureId) => {
   //   console.log(JSON.stringify(err))
   // })
 
-  return fetch(`${apiConfig.apiUrl}/picture`, {
+  return fetch(`${apiUrl}/picture`, {
     method: 'POST', // *GET, POST, PUT, DELETE, etc.
     mode: 'cors', // no-cors, cors, *same-origin
     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
