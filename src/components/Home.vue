@@ -1,27 +1,43 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
+    <h1></h1>
 
-    <h2>{{ count }}</h2>
+    <h2></h2>
 
-    <v-btn large color="teal" @click="takePicture" v-bind:disabled="isTakingPhoto">Tirar foto!</v-btn>
-    <v-progress-circular :size="50" :width="10" color="primary" indeterminate="" v-show="isTakingPhoto && count === 0"></v-progress-circular>
+    <v-btn large fixed bottom right fab color="primary"
+      @click="takePicture" v-bind:disabled="isTakingPhoto">
+      <i class="material-icons">add_a_photo</i>
+    </v-btn>
 
-    <v-card v-show="false">
-      <v-img src="https://picsum.photos/510/300?random" height="70vh"></v-img>
-      <v-card-title primary-title>
-        <div>
-          <h3 class="headline mb-0">Kangaroo Valley Safari</h3>
-          <div>Located two hours south of Sydney in the
-            <br>Southern Highlands of New South Wales, ...
-          </div>
-        </div>
-      </v-card-title>
-      <v-card-actions>
-        <v-btn flat color="orange">Share</v-btn>
-        <v-btn flat color="orange">Explore</v-btn>
-      </v-card-actions>
-    </v-card>
+<v-dialog
+      v-model="isTakingPhoto"
+      hide-overlay
+      persistent
+      width="300"
+    >
+      <v-card
+        color="primary"
+        dark
+      >
+        <v-card-text>
+          <strong v-show="count > 0" large>{{ count }}</strong>
+          <span v-show="count === 0">Please stand by</span>
+          <v-progress-linear
+            indeterminate
+            color="white"
+            class="mb-0"
+          ></v-progress-linear>
+
+        </v-card-text>
+      </v-card>
+    </v-dialog>
+
+ <v-alert
+      :value="true"
+      type="info"
+    >
+      {{ msg }}
+    </v-alert>
   </div>
 </template>
 
