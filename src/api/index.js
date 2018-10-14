@@ -1,6 +1,5 @@
 // import axios from 'axios'
-import nconf from 'nconf'
-import path from 'path'
+const config = require('../../src/config')
 
 // const http = axios.create({
 //   baseURL: apiConfig.apiUrl,
@@ -10,11 +9,7 @@ import path from 'path'
 //   }
 // })
 
-nconf.argv()
-  .env()
-  .file({ file: path.resolve(__dirname, './api.config.json') })
-
-var apiUrl = nconf.get('apiUrl')
+var apiUrl = config.get('apiUrl')
 export const ping = (cb) => {
   setTimeout(() => { console.log('pong'); cb() }, 100)
 }
