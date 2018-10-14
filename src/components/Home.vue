@@ -31,13 +31,15 @@
         </v-card-text>
       </v-card>
     </v-dialog>
+    <div v-for="(alert, index) in alerts" :key="index">
 
- <v-alert
-      :value="true"
-      type="info"
-    >
-      {{ msg }}
-    </v-alert>
+        <v-alert
+         :value="true"
+         dismissible
+         :type=alert.type>
+          {{alert.msg}}
+        </v-alert>
+    </div>
   </div>
 </template>
 
@@ -50,17 +52,38 @@ export default {
 
   data: function () {
     return {
-      msg: 'Carregar no botão, olhar para a camera e contar até três.',
       count: 3,
-      isTakingPhoto: false
+      isTakingPhoto: false,
+      alerts: [{
+        type: 'info',
+        msg: 'Carregar no botão, olhar para a camara e contar até três.'
+      }]
     }
+  },
+
+  created: function () {
+    // `this` points to the vm instance
+    console.log('a is: ' + this.alerts)
+
+    this.increment()
   },
   computed: {
   },
   methods: {
 
-    increment: function () {
-      ping()
+    increment: async function () {
+      let alerts = this.alerts
+      await ping().catch(function (error) {
+        if (error.response) {
+          // The request was made and the server responded with a status code
+          // that falls out of the range of 2xx
+          console.log(error.response.data)
+          console.log(error.response.status)
+          console.log(error.response.headers)
+
+          alerts.push({type: 'error', msg: 'cannot connect to the API'})
+        }
+      })
     },
     takePicture: function () {
       const captureId = cuid()

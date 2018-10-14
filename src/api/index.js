@@ -1,17 +1,17 @@
-// import axios from 'axios'
+import axios from 'axios'
 const config = require('../../src/config')
-
-// const http = axios.create({
-//   baseURL: apiConfig.apiUrl,
-//   headers: {
-//     'Content-Type': 'application/json',
-//     'Access-Control-Allow-Origin': '*'
-//   }
-// })
-
 var apiUrl = config.get('apiUrl')
+
+const http = axios.create({
+  baseURL: apiUrl,
+  headers: {
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*'
+  }
+})
+
 export const ping = (cb) => {
-  setTimeout(() => { console.log('pong'); cb() }, 100)
+  return http.get('/ping')
 }
 
 export const takePicture = async (sessionId, captureId) => {
