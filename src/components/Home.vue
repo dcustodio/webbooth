@@ -57,7 +57,8 @@ export default {
       alerts: [{
         type: 'info',
         msg: 'Carregar no botão, olhar para a camara e contar até três.'
-      }]
+      }],
+      photos: []
     }
   },
 

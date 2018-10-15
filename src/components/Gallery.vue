@@ -3,15 +3,16 @@
   <v-card>
     <v-layout row wrap>
       <v-flex
-        v-for="n in 9"
-        :key="n"
+        v-for="p in photos"
+        :key="p.id"
         xs4
         d-flex
       >
+
         <v-card flat tile class="d-flex">
           <v-img
-            :src="`https://picsum.photos/500/300?image=${n * 5 + 10}`"
-            :lazy-src="`https://picsum.photos/10/6?image=${n * 5 + 10}`"
+            :src="p.url"
+            :lazy-src="p.url"
             aspect-ratio="1"
             class="grey lighten-2"
           >
@@ -29,8 +30,26 @@
       </v-flex>
     </v-layout>
   </v-card>
+
 </template>
 <script>
+import { getAllpictures } from '../api/index.js'
+export default {
+
+  data: function () {
+    return {
+      photos: []
+    }
+  },
+  created: function () {
+    // `this` points to the vm instance
+    console.log('a is: ' + this.alerts)
+
+    getAllpictures().then(result => {
+      this.photos = result.data
+    })
+  }
+}
 </script>
 <style lang="scss">
 </style>
