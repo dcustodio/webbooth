@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import { ping, takePicture } from '../api/index.js'
+import { ping, takePicture, getPicture } from '../api/index.js'
 import cuid from 'cuid'
 
 export default {
@@ -100,8 +100,8 @@ export default {
 
       try {
         takePicture(this.$global.sessionId, captureId).then(a => {
-          debugger; //eslint-disable-line
           console.log(a)
+          this.getPictureById(captureId)
         })
       } catch (error) {
         debugger; //eslint-disable-line
@@ -109,8 +109,26 @@ export default {
         this.isTakingPhoto = false
       }
     },
-    getPicture: url => {
-      return 'https://res.cloudinary.com/dwcg7v23g/image/upload/v1538175342/fo2zkt9rixtlldhw7xpb.jpg'
+    getPictureById: (id) => {
+      let tries = 0
+      const interval = setInterval(() => {
+        debugger//eslint-disable-line
+        tries++
+        getPicture(id)
+          .then(result => {
+            debugger//eslint-disable-line
+            clearInterval(interval)
+            return result.data
+          })
+          .catch(error => {
+            debugger//eslint-disable-line
+          })
+
+        if (tries > 5) {
+          clearInterval(interval)
+          throw new Error('picture not available')
+        }
+      }, 5000)
     }
   }
 }
