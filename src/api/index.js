@@ -28,3 +28,7 @@ export const getPicture = (id) => {
 export const getAllpictures = () => {
   return http.get('/picture')
 }
+
+export const fortuneCookie = () => {
+  return axios.get('http://fortunecookieapi.herokuapp.com/v1/cookie')
+}

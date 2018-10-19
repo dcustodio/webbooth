@@ -40,10 +40,10 @@
           {{alert.msg}}
         </v-alert>
     </div>
-    {{ photos }}
+
     <div v-for="(photo) in photos" :key="photo.id">
 
-      <v-card>
+      <v-card class=" mb-4" >
         <v-img
           :src="photo.url"
           aspect-ratio="2.75"
@@ -51,14 +51,14 @@
 
         <v-card-title primary-title>
           <div>
-            <h3 class="headline mb-0">Kangaroo Valley Safari</h3>
-            <div>Located two hours south of Sydney in the <br>Southern Highlands of New South Wales, ...</div>
+            <blockquote class=" mb-0 caption font-weight-thin font-italic">{{photo.fortune}}</blockquote>
+
           </div>
         </v-card-title>
 
-        <v-card-actions>
-          <v-btn flat color="orange">Share</v-btn>
-          <v-btn flat color="orange">Explore</v-btn>
+        <v-card-actions >
+          <v-btn flat color="teal lighten-2" :href="photo.url" target="_blank">Download</v-btn>
+
         </v-card-actions>
       </v-card>
     </div>
@@ -66,7 +66,7 @@
 </template>
 
 <script>
-import { ping, takePicture, getPicture } from '../api/index.js'
+import { ping, takePicture, getPicture, fortuneCookie } from '../api/index.js'
 import cuid from 'cuid'
 
 export default {
@@ -150,12 +150,22 @@ export default {
         if (data.url) {
           this.photos.push(data)
           this.isTakingPhoto = false
-
+          this.addFortuneCookie(id)
           return data
         } else {
           console.log('delay')
           return delay(1000).then(() => this.pollForPicture(id))
         }
+      })
+    },
+    addFortuneCookie: function (id) {
+      fortuneCookie().then(({data}) => {
+        debugger//eslint-disable-line
+
+        const idx = this.photos.findIndex(p => p.id === id)
+
+        this.photos[idx].fortune = data[0].fortune.message
+        this.photos[idx].luckyNumbers = data[0].lotto.numbers.join(',')
       })
     }
 
