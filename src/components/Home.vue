@@ -5,7 +5,7 @@
     <h2></h2>
 
     <v-btn large fixed bottom right fab color="primary"
-      @click="takePicture" v-bind:disabled="isTakingPhoto">
+      @click="takePictureAndGetBack" v-bind:disabled="isTakingPhoto">
       <i class="material-icons">add_a_photo</i>
     </v-btn>
 
@@ -40,6 +40,28 @@
           {{alert.msg}}
         </v-alert>
     </div>
+    {{ photos }}
+    <div v-for="(photo) in photos" :key="photo.id">
+
+      <v-card>
+        <v-img
+          :src="photo.url"
+          aspect-ratio="2.75"
+        ></v-img>
+
+        <v-card-title primary-title>
+          <div>
+            <h3 class="headline mb-0">Kangaroo Valley Safari</h3>
+            <div>Located two hours south of Sydney in the <br>Southern Highlands of New South Wales, ...</div>
+          </div>
+        </v-card-title>
+
+        <v-card-actions>
+          <v-btn flat color="orange">Share</v-btn>
+          <v-btn flat color="orange">Explore</v-btn>
+        </v-card-actions>
+      </v-card>
+    </div>
   </div>
 </template>
 
@@ -66,13 +88,14 @@ export default {
     // `this` points to the vm instance
     console.log('a is: ' + this.alerts)
 
-    this.increment()
+    this.checkStatus()
   },
+  persist: ['photos'],
   computed: {
   },
   methods: {
 
-    increment: async function () {
+    checkStatus: async function () {
       let alerts = this.alerts
       await ping().catch(function (error) {
         if (error.response) {
@@ -86,11 +109,12 @@ export default {
         }
       })
     },
-    takePicture: function () {
+    takePictureAndGetBack: function () {
       const captureId = cuid()
       this.count = 3
       this.isTakingPhoto = true
 
+      // timer
       const interval = setInterval(() => {
         if (this.count === 0) {
           clearInterval(interval)
@@ -101,36 +125,40 @@ export default {
 
       try {
         takePicture(this.$global.sessionId, captureId).then(a => {
-          console.log(a)
-          this.getPictureById(captureId)
+          console.log('took picture:', a)
+          this.pollForPicture(captureId)
         })
       } catch (error) {
-        debugger; //eslint-disable-line
         console.error(error)
         this.isTakingPhoto = false
       }
     },
-    getPictureById: (id) => {
-      let tries = 0
-      const interval = setInterval(() => {
-        debugger//eslint-disable-line
-        tries++
-        getPicture(id)
-          .then(result => {
-            debugger//eslint-disable-line
-            clearInterval(interval)
-            return result.data
-          })
-          .catch(error => {
-            debugger//eslint-disable-line
-          })
+    getPictureById: async (id) => {
+      const picture = await getPicture(id)
+        .then(result => {
+          return result.data
+        })
+        .catch(error => {
+          console.error(error)
+        })
 
-        if (tries > 5) {
-          clearInterval(interval)
-          throw new Error('picture not available')
+      return picture
+    },
+    pollForPicture: function (id) {
+      const delay =(ms) => new Promise(fn => setTimeout(fn, ms))// eslint-disable-line
+      getPicture(id).then(({data}) => {
+        if (data.url) {
+          this.photos.push(data)
+          this.isTakingPhoto = false
+
+          return data
+        } else {
+          console.log('delay')
+          return delay(1000).then(() => this.pollForPicture(id))
         }
-      }, 5000)
+      })
     }
+
   }
 }
 </script>

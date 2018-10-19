@@ -6,6 +6,7 @@ import router from './router'
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css' // Ensure you are using css-loader
 import cuid from 'cuid'
+import VuePersist from 'vue-persist'
 
 Vue.use(Vuetify, {
   theme: {
@@ -19,6 +20,7 @@ Vue.use(Vuetify, {
 // primary darken #004c40
 // secondary lighten f84c38
 // secondary darken 860000
+Vue.use(VuePersist)
 
 const shared = {
   sessionId: cuid()
