@@ -10,7 +10,7 @@
       >
 
         <v-card flat tile class="d-flex">
-          <v-img
+           <a :href="'#/photo/'+p.id"><v-img
             :src="p.url"
             :lazy-src="p.url"
             aspect-ratio="1"
@@ -26,6 +26,7 @@
               <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
             </v-layout>
           </v-img>
+          </a>
         </v-card>
       </v-flex>
     </v-layout>

@@ -98,13 +98,7 @@ export default {
     checkStatus: async function () {
       let alerts = this.alerts
       await ping().catch(function (error) {
-        if (error.response) {
-          // The request was made and the server responded with a status code
-          // that falls out of the range of 2xx
-          console.log(error.response.data)
-          console.log(error.response.status)
-          console.log(error.response.headers)
-
+        if (error) {
           alerts.push({type: 'error', msg: 'cannot connect to the API'})
         }
       })
@@ -160,8 +154,6 @@ export default {
     },
     addFortuneCookie: function (id) {
       fortuneCookie().then(({data}) => {
-        debugger//eslint-disable-line
-
         const idx = this.photos.findIndex(p => p.id === id)
 
         this.photos[idx].fortune = data[0].fortune.message
