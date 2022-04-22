@@ -15,7 +15,7 @@
   "dependencies": {
     "axios": "^0.21.1",
     "cuid": "^2.1.4",
-    "nconf": "^0.10.0",
+    "nconf": "^0.11.4",
     "vue": "^2.5.2",
     "vue-persist": "^0.4.0",
     "vue-router": "^3.0.1",
